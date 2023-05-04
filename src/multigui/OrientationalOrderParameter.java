@@ -159,7 +159,9 @@ public class OrientationalOrderParameter{
 			
 			for ( int i = 0; i < hueMap.size(); i++ ) {
 				
-				sum += Math.cos(Math.toRadians(hueMap.get(i)*180-director)); // compute OOP with director 
+				double value = Math.pow(Math.cos(Math.toRadians(hueMap.get(i)*180-director)),2);
+				
+				sum += value; // compute OOP with director 
 				
 			}
 				S = 2*(sum/(double)hueMap.size())-1;
@@ -240,7 +242,7 @@ public class OrientationalOrderParameter{
 			String directorString = df.format(directorAngle);
 			
 			directorString = directorString.replace(',', '.');
-			
+			resultsTable.addValue("Type", "with Director");
 			resultsTable.addValue("Director Angle", directorAngle);
 			counter += 1; 
 			
@@ -249,16 +251,27 @@ public class OrientationalOrderParameter{
 			 	
 			 	
 			 resultsTable.addValue("Type", "without Director");
-			 resultsTable.addValue("Mean Angle", arr_angle[0]);
 				//counter += 1; 
 			 //
 			//	counter += 1;
 					
 		 }
-		for (int i = 0;  i<arr_s.length; i++) {
-			resultsTable.addValue("Scale " + (i+1), arr_s[i] );
+		if (arr_s != null) {
+		if (arr_s.length > 1) {
+			for (int i = 0;  i<arr_s.length; i++) {
+				resultsTable.addValue("Orientational Order Parameter of scale " + (i+1), arr_s[i] );
+				if (directorUsed == 0)  {
+					resultsTable.addValue("Mean Angle of scale " + (i+1), arr_angle[i]);
+				}
+			}
 		}
-		
+		else {
+			resultsTable.addValue("Orientational Order Parameter", arr_s[0]);
+			if (directorUsed == 0)  {
+				resultsTable.addValue("Mean Angle", arr_angle[0]);
+			}
+		}
+		}
 		
 
 		return resultsTable;

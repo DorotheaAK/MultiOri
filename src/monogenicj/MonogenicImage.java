@@ -298,7 +298,8 @@ public class MonogenicImage implements Runnable{
 			String title = "Color Survey";
 			img.setTitle(prefix + title);
 			img.show();
-		    new ColorBar().getColorBar(img);
+			if (params.featureHue == "Orientation") {
+		    new ColorBar().getColorBar(img);}
 		    }
 		else if (feature == MonogenicParameters.FILTERED){
 			System.out.println("Saturation: " + params.featureSat);
@@ -312,7 +313,8 @@ public class MonogenicImage implements Runnable{
 			String title = "Filtered Color Survey";
 		    filteredImg.setTitle(prefix + title);
 		    filteredImg.show();
-
+		    if (params.featureHue == "Orientation") {
+			    new ColorBar().getColorBar(filteredImg);}
 		    }
 		
 		
@@ -360,6 +362,8 @@ public class MonogenicImage implements Runnable{
 					String title = "Masked Filtered Color Survey";
 					maskedFiltered.setTitle(prefix + title);
 					maskedFiltered.show();
+					if (params.featureHue == "Orientation") {
+					    new ColorBar().getColorBar(maskedFiltered);}
 				}
 				
 				else if (feature == MonogenicParameters.MASKED_HISTO) {
@@ -395,6 +399,8 @@ public class MonogenicImage implements Runnable{
 				String title = "Masked Color Survey";
 				maskedFiltered.setTitle(prefix + title);
 				maskedFiltered.show();
+				if (params.featureHue == "Orientation") {
+				    new ColorBar().getColorBar(maskedFiltered);}
 			}
 			
 			else if (feature == MonogenicParameters.MASKED_OOP) {

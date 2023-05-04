@@ -156,7 +156,7 @@ public class ManualEntry extends JPanel {
     
     private class ResetLineAction extends AbstractAction { // change to close 
     	public ResetLineAction() {
-            super("Re-draw");
+            super("Re-do");
         }
 
         @Override

@@ -184,9 +184,10 @@ public class GroupImage {
 			else
 				imp = ColorMapping.colorRGB(nt,  OrientationParameters.orientation_parameters[OrientationParameters.SURVEY],  c1, c2, c3);
 			
-			
+			if (params.featureHue == "Orientation") {
 			ColorBar colorBar = new ColorBar();
 			colorBar.getColorBar(imp);
+			}
 			return imp;
 		}
 		else if (feature == OrientationParameters.FILTERED) {
@@ -199,6 +200,10 @@ public class GroupImage {
 				filtered = ColorMapping.colorHSB(nt, OrientationParameters.orientation_parameters[OrientationParameters.FILTERED],  c1, c2, c3);
 				
 			}
+			if (params.featureHue == "Orientation") {
+				ColorBar colorBar = new ColorBar();
+				colorBar.getColorBar(filtered);
+				}
 			
 			return filtered;
 		}
@@ -254,7 +259,10 @@ public class GroupImage {
 					ImagePlus maskedFiltered = null;
 					
 					maskedFiltered = ColorMapping.maskedColorHSB(nt, OrientationParameters.orientation_parameters[OrientationParameters.FILTERED],  c1, c2, c3, maskedImg, params.coherency);
-					
+					if (params.featureHue == "Orientation") {
+						ColorBar colorBar = new ColorBar();
+						colorBar.getColorBar(maskedFiltered);
+						}
 					return maskedFiltered;
 				}
 				
@@ -284,7 +292,10 @@ public class GroupImage {
 			else if (feature == OrientationParameters.MASKED_COLOR) {
 				System.out.println("Masked Color");
 				ImagePlus maskedSurvey = ColorMapping.maskedColorHSB(nt, OrientationParameters.orientation_parameters[OrientationParameters.SURVEY],  c1, c2, c3, maskedImg, 0);
-				
+				if (params.featureHue == "Orientation") {
+					ColorBar colorBar = new ColorBar();
+					colorBar.getColorBar(maskedSurvey);
+					}
 		
 				return maskedSurvey; 
 			}

@@ -1,11 +1,13 @@
 import multigui.AnalysisDialog;
+import ij.IJ;
+import ij.ImagePlus;
 import ij.plugin.PlugIn;
 import orientation.OrientationService;
 
-public class MultiMode_Orientation implements PlugIn {
+public class Multi_Ori_ implements PlugIn {
 	public static void main(String arg[]) {
 
-		new MultiMode_Orientation().run("");
+		new Multi_Ori_().run("");
 	}
 	public void run(String arg) {
 		
@@ -32,7 +34,7 @@ public class MultiMode_Orientation implements PlugIn {
 		//IJ.save(imp, "C:\\Users\\Dorothea Kraft\\Downloads\\this.tiff");
 		
 		//String url = "C:/Users/dorot/Downloads/chip.png";
-		//String url = "C:/Users/dorot/Downloads/TestImages_Orientation/Diseased_IL13_chip01-03.tif";
+		//String url = "C:/Users/dorot/Downloads/TestImages_Orientation/Control_chip01-05.tif";
 		//String url = "C:/Users/dorot/Downloads/Diseased_IL13_chip01-03.tif";
 		//String url =  "C:/Users/dorot/Downloads/STD_H47_BG2_FOV7_WGA_Series037_60fps.tif";
 		//ImagePlus imp = IJ.openImage(url);
