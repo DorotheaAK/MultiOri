@@ -86,7 +86,7 @@ public class GroupImage {
 	
 	private LogAbstract log;
 	
-	private String prefix = "Gardient Structure Tensor Analysis -";
+	private String prefix = "Gradient Structure Tensor Analysis -";
 	
 	public GroupImage(LogAbstract log, ImagePlus imp, OrientationParameters params) {
 		this.log = log;

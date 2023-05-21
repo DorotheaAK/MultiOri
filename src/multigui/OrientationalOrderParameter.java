@@ -142,7 +142,6 @@ public class OrientationalOrderParameter{
 		
 		mean_angle = mean_angle/((double)hueMap.size());
 		
-		System.out.println("mean angle: " + mean_angle);
 		return mean_angle; 
 	
 	}
@@ -200,12 +199,11 @@ public class OrientationalOrderParameter{
 
 	public ResultsTable updateResultsTable(ResultsTable resultsTable, double[] arr_s, double[] arr_angle, ImagePlus img, int directorUsed, float scale, double coherency, boolean masking)
 	{
-		System.out.println("coherency in OOP " + coherency);
-
+	
 		if (resultsTable == null) {
 			
 			resultsTable = new ResultsTable();
-			System.out.println("new resultstable");
+			
 			resultsTable.setPrecision( 9 );
 			resultsTable.incrementCounter();
 			counter = 1;
@@ -232,7 +230,7 @@ public class OrientationalOrderParameter{
 			else {
 				resultsTable.addLabel(img.getShortTitle());
 			}
-			//table.addValue("Image", imp.getShortTitle());
+			
 		}
 		
 		if ((directorUsed == 1) && director != null) {
@@ -251,9 +249,7 @@ public class OrientationalOrderParameter{
 			 	
 			 	
 			 resultsTable.addValue("Type", "without Director");
-				//counter += 1; 
-			 //
-			//	counter += 1;
+
 					
 		 }
 		if (arr_s != null) {

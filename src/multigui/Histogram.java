@@ -4,8 +4,10 @@ import java.awt.Color;
 import ij.plugin.filter.Binary;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -20,7 +22,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.ImageStack;
-
+import ij.measure.ResultsTable;
 import ij.process.FloatProcessor;
 import ij.process.ImageProcessor;
 import imageware.ImageWare;
@@ -72,6 +74,9 @@ public class Histogram {
 	/** This stack stores the orientation map. */
 	ImageStack orientation_map;
 	public boolean masking = false; 
+	ResultsTable angleTable;
+	
+	boolean printAngles = false; 
 	
 
 	public void run(ImagePlus img, ImageWare hue, ImageWare sat, ImageWare bri, String prefix, double coherency, ImagePlus masked) {
@@ -85,11 +90,24 @@ public class Histogram {
 		
 		setMethod(img);
 		
+		
+		Object[] options = {"YES", "NO"};
+        
+    	
+    	Locale.setDefault(Locale.ENGLISH);
+        int chosen = JOptionPane.showOptionDialog(null, 
+    			"Do you want to display the orientation angles found in the image in a table format as well?", 
+    			"Select an Option for displaying the Orientation Angles in the image.", 
+    			JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        if ( chosen == JOptionPane.YES_OPTION) {
+        	printAngles = true;
+        }
+		
 		if (masked == null) {
-			getDefaultHistogram(hue, sat, prefix, coherency); 
+			getDefaultHistogram(hue, sat, prefix, coherency, printAngles); 
 		}
 		else {
-			getMaskedHistogram(hue, sat, prefix, masked, coherency);
+			getMaskedHistogram(hue, sat, prefix, masked, coherency, printAngles);
 		}
 		
 		
@@ -98,14 +116,13 @@ public class Histogram {
 	}
 	
 	
-	private void getMaskedHistogram(ImageWare hue, ImageWare sat, String prefix, ImagePlus masked, double coherency) {
+	private void getMaskedHistogram(ImageWare hue, ImageWare sat, String prefix, ImagePlus masked, double coherency, boolean printAngles) {
 		int nscale = hue.getSizeZ();
 		
 		masking = true; 
 		ImagePlus flattened = masked.flatten();
 
 		ImageProcessor ip = flattened.getProcessor();
-		System.out.println(hue.getSizeZ());
 		
 		 for (int k = 0; k <nscale; k++) {
 		    	
@@ -135,6 +152,9 @@ public class Histogram {
 
 				setMethod();
 				computeHistograms(hueMap);
+				if (printAngles){
+					printAngles(hueMap, prefix, k);
+					}
 			
 				plotResults(scale, prefix, coherency).setVisible( true );
 			
@@ -143,8 +163,9 @@ public class Histogram {
 		
 	}
 		
-	public void getDefaultHistogram(ImageWare hue, ImageWare sat, String prefix, double coherency) {
+	public void getDefaultHistogram(ImageWare hue, ImageWare sat, String prefix, double coherency, boolean printAngles) {
 		
+		System.out.println("prefix " + prefix);
 
 	    for (int k = 0; k < hue.getSizeZ(); k++) {
 	    	
@@ -169,11 +190,65 @@ public class Histogram {
 
 			setMethod();
 			computeHistograms(hueMap);
-		
+			
+			if (printAngles){
+			printAngles(hueMap, prefix, k);
+			}
 			plotResults(scale, prefix, coherency).setVisible( true );
 	    
 	    
 	    }
+		
+		
+	}
+	
+	public void printAngles(ArrayList<Float> hueMap, String prefix, int k) {
+		
+		
+		if (angleTable == null) {
+			
+			angleTable = new ResultsTable();
+			
+			angleTable.setPrecision( 9 );
+			angleTable.incrementCounter();
+
+			
+		}
+		else {
+			ResultsTable.getResultsTable( prefix + " Angle Table" );
+			angleTable.incrementCounter();
+
+		}
+		
+		System.out.println("prefix:" + prefix + "end");
+	
+		System.out.println("hue map size " + hueMap.size());
+		
+		if (prefix == "Gradient Structure Tensor Analysis -" ) {
+		
+		for (int i = 0;  i<hueMap.size(); i++) {
+			angleTable.addValue("Angles ",hueMap.get(i)*180);
+			
+			angleTable.incrementCounter();
+			
+			}
+		
+		}
+		
+		else {
+		
+		for (int i = 0;  i<hueMap.size(); i++) {
+			angleTable.addValue("Angles at scale "+ (k+1),hueMap.get(i)*180);
+			
+			angleTable.incrementCounter();
+			
+			}
+		
+		
+		
+		}
+		
+		angleTable.show(prefix + " Angle Table");
 		
 		
 	}
